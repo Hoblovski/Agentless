@@ -16,36 +16,37 @@ python agentless/fl/localize.py --file_level \
 				--skip_existing \
 				--backend deepseek --model deepseek-coder 
 
-echo ZHENYANG 1.1.b. EMBED
-
-python agentless/fl/localize.py --file_level \
-                                --irrelevant \
-                                --output_folder results/swe-bench-lite/file_level_irrelevant \
-                                --num_threads $NUM_THREADS \
-                                --skip_existing \
-				--backend deepseek --model deepseek-coder 
-
-python agentless/fl/retrieve.py --index_type simple \
-                                --filter_type given_files \
-                                --filter_file results/swe-bench-lite/file_level_irrelevant/loc_outputs.jsonl \
-                                --output_folder results/swe-bench-lite/retrievel_embedding \
-                                --persist_dir embedding/swe-bench_simple \
-                                --num_threads $NUM_THREADS
-
-echo ZHENYANG 1.1.c. COMBINE
-python agentless/fl/combine.py  --retrieval_loc_file results/swe-bench-lite/retrievel_embedding/retrieve_locs.jsonl \
-                                --model_loc_file results/swe-bench-lite/file_level/loc_outputs.jsonl \
-                                --top_n $TOPN \
-                                --output_folder results/swe-bench-lite/file_level_combined 
+#echo ZHENYANG 1.1.b. EMBED
+#
+#python agentless/fl/localize.py --file_level \
+#                                --irrelevant \
+#                                --output_folder results/swe-bench-lite/file_level_irrelevant \
+#                                --num_threads $NUM_THREADS \
+#                                --skip_existing \
+#				--backend deepseek --model deepseek-coder 
+#
+#python agentless/fl/retrieve.py --index_type simple \
+#                                --filter_type given_files \
+#                                --filter_file results/swe-bench-lite/file_level_irrelevant/loc_outputs.jsonl \
+#                                --output_folder results/swe-bench-lite/retrievel_embedding \
+#                                --persist_dir embedding/swe-bench_simple \
+#                                --num_threads $NUM_THREADS
+#
+#echo ZHENYANG 1.1.c. COMBINE
+#python agentless/fl/combine.py  --retrieval_loc_file results/swe-bench-lite/retrievel_embedding/retrieve_locs.jsonl \
+#                                --model_loc_file results/swe-bench-lite/file_level/loc_outputs.jsonl \
+#                                --top_n $TOPN \
+#                                --output_folder results/swe-bench-lite/file_level_combined 
 
 echo ZHENYANG 1.2. ELEMENT LOCALIZE
 
+#                                --start_file results/swe-bench-lite/file_level_combined/combined_locs.jsonl \
 python agentless/fl/localize.py --related_level \
                                 --output_folder results/swe-bench-lite/related_elements \
                                 --top_n $TOPN \
                                 --compress_assign \
                                 --compress \
-                                --start_file results/swe-bench-lite/file_level_combined/combined_locs.jsonl \
+                                --start_file results/swe-bench-lite/file_level/loc_outputs.jsonl \
                                 --num_threads $NUM_THREADS \
                                 --skip_existing 
                                 --backend deepseek --model deepseek-coder 
